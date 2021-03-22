@@ -1,11 +1,8 @@
 import  re
 def word_to_number(string):
+    string = string.lower()
     numwords = {}
 
-    tempCheck = string.split(' ')
-    for temp in tempCheck:
-        if len(temp.split('-')) > 2:
-            return "Input not a string"
     # singles
     units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
@@ -18,6 +15,12 @@ def word_to_number(string):
 
     # larger scales
     scales = ["hundred", "thousand", "million", "billion", "trillion"]
+
+    tempCheck = string.split(' ')
+    for temp in tempCheck:
+        temp = temp.split('-');
+        if len(temp) > 2 or (len(temp) == 2 and temp[0] not in tens):
+            return "Input not a string"
 
     # divisors
     numwords["and"] = (1, 0)
@@ -47,4 +50,8 @@ def word_to_number(string):
     # return the result plus the current
     return result + current
 
-print(word_to_number('nine-hundred-ninety-five'))
+words = 'one hundred fifty-six thousand and Five'
+words = words.split(',')
+
+for word in words:
+    print(word_to_number(word))

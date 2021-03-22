@@ -29,7 +29,21 @@ def next_bigger(number):
 
     return -1
 
+def next_bigger1(number):
+    num = list(str(number))
 
-print(next_bigger(5988889853))
+    index_to_swap = len(num) - 1
+
+    for i in range(len(num) - 2, -1, -1):
+        if num[i] < num[index_to_swap]:
+            num[index_to_swap], num[i] = num[i], num[index_to_swap]
+            return int(''.join(num))
+            break
+        else:
+            index_to_swap = i
+    else:
+        return -1
+
+print(next_bigger1(790))
 # for x in range(99999):
 #     print(next_bigger(x))

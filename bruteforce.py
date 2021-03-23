@@ -9,4 +9,4 @@ def permutations(string):
 
     return set(recursive_perms)
 
-print(permutations('a'))
+print(permutations('abh'))

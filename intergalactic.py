@@ -36,8 +36,9 @@ class TransportShip:
         # repeatedly as planets are traversed
         for dest in self.map:
             if origin.lower() == destination.lower():
-                return distance
+                return round(distance, 1)
             if dest['from'].lower() == origin.lower():
+                print(dest)
                 distance += dest['distance']
                 origin = dest['to']
 
@@ -47,7 +48,7 @@ class TransportShip:
         #     if dest['from'].lower() == origin.lower() and dest['to'].lower() == destination.lower():
         #         distance += dest['distance']
 
-        return distance
+        return round(distance, 1)
 
     def calculate_distance_reverse(self, origin, destination, distance=0):
         # calculate distance between planets in reverse order;
@@ -57,12 +58,12 @@ class TransportShip:
         tempMap = self.map[::-1]
         for dest in tempMap:
             if origin.lower() == destination.lower():
-                return distance
+                return round(distance, 1)
             if dest['to'].lower() == origin.lower():
                 distance += dest['distance']
                 origin = dest['from']
 
-        return distance
+        return round(distance, 1)
 
     # origin = mon cala -> destination = illum
     # origin = ryloth -> destination = jakku
@@ -129,7 +130,7 @@ falcon.add_passenger(Passenger('Luke','Endor','Naboo',['Nathan']))
 falcon.add_passenger(Passenger('Porg','Jakku','Ilum',['Hoobe','Kool']))
 falcon.add_passenger(Passenger('Anakin','Jakku','Naboo'))
 falcon.add_passenger(Passenger('Anni','Jakku','Ilum',['Solo','Han','Mace','Windu']))
-print(falcon.get_distance('mon cala', 'hoth'))
+print(falcon.calculate_distance('hoth', 'naboo'))
 
 falcon = TransportShip('Millenium Falcon', 45.50, 12, 7)
 falcon.add_passenger(Passenger('Luke','Endor','Naboo',['Nathan']))

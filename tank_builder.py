@@ -4,11 +4,11 @@ def tank_price(height, diameter, unit, quantity):
         return 0
 
     if unit == 'in':
-        height = height / 39.3701
-        diameter = diameter / 39.3701
+        height = height / 39.370079
+        diameter = diameter / 39.370079
     elif unit == 'ft':
-        height = height / 3.28084
-        diameter = diameter / 3.28084
+        height = height / 3.2808399
+        diameter = diameter / 3.2808399
 
     radius = diameter / 2
 

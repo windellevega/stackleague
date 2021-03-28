@@ -11,7 +11,7 @@ function nextBigger(n){
   }
 
   // if we are unable to find the pivot, skip
-  if (p == -1) return p;
+  if (p == -1) throw new Error();
 
   // splice the digits in the pivot
   var right = d.splice(p);
@@ -30,7 +30,7 @@ function nextBigger(n){
     }
   }
 
-  if (mmi == null) return -1;
+  if (mmi == null) throw new Error();
 
   right.splice(mmi, 1);
   right.push(pv);
@@ -38,7 +38,7 @@ function nextBigger(n){
 
   // concat the left + new pivot + right part
   var ret = +d.concat([mm]).concat(right).join('');
-  if (ret < n) return -1;
+  if (ret < n) throw new Error();
 
   return ret;
 }

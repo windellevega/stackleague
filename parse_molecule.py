@@ -22,6 +22,6 @@ def parse_molecule(formula):
     return dict(Counter(array[-1]))
 
 
-print(parse_molecule('H2O'))
+print(parse_molecule('(H(O2))4'))
 print(parse_molecule('Mg[((OH2]2'))
 print(parse_molecule('AB4Au{[((OM2)2)4]2}2'))

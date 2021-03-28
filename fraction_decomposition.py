@@ -2,30 +2,32 @@ from fractions import *
 import math
 def decompose(n):
     # Egyptian Fraction using Fibonacci's algorithm
-    if n == '0':
+    if n.split('/')[0] == '0':
         return []
 
     decomposed = []
 
-    n = n.split('/')
+    if Fraction(n).denominator == 1:
+        return [str(Fraction(n).numerator)]
 
-    if(len(n) == 2):
-        numerator = is_numeric(n[0])
-        denominator = is_numeric(n[1])
+    n = Fraction(n)
+    print(n)
+    numerator = n.numerator
+    denominator = n.denominator
 
-        if numerator > denominator:
-            wholeNum = int(numerator/denominator)
+    if denominator == 0:
+        raise ValueError
 
-            decomposed.append(str(wholeNum))
-            numerator -= denominator * wholeNum
+    if numerator > denominator:
+        wholeNum = int(numerator/denominator)
 
-            if numerator % denominator == 0:
-                return decomposed
+        decomposed.append(str(wholeNum))
+        numerator -= denominator * wholeNum
 
-        fraction = Fraction(numerator, denominator)
-    else:
-        fraction = Fraction(n[0])
+        if numerator % denominator == 0:
+            return decomposed
 
+    fraction = Fraction(numerator, denominator)
 
     startDen = 0
 
@@ -41,13 +43,14 @@ def decompose(n):
     return decomposed
 def is_numeric(n):
     if n.isnumeric():
-        return int(n)
+        return True
     else:
-        raise ValueError
+        raise False
 
+#print(str(Fraction('a')))
 print(decompose('3/4'))
-print(decompose('13/5'))
+print(decompose('0.00056'))
 print(decompose('0.19'))
 print(decompose('0.66'))
-print(decompose('2/5'))
+print(decompose('0.43'))
 #print((1/2) + (1/7) + (1/59) + (1/5163) + (1/53307975))

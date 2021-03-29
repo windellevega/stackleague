@@ -14,7 +14,6 @@ def factorial_sum(lst):
         final_list.append(list_n)
     return final_list
 
-
 def prime_factors(n):
     i = 2
     n = abs(n)
@@ -32,4 +31,4 @@ def prime_factors(n):
 print(factorial_sum([12, 15, -51]))
 print(factorial_sum([-43,-21,-24,-33,-45,-13, -25, -234, -63, -24]))
 print(factorial_sum([107, 158, 204, 100, 118, 123, 126, 110, 116, 100]))
-print(factorial_sum([-29804, -4209, -28265, -72769, -31744]))
+print(factorial_sum([-298099994, -4209, -28265, -72769, -99999999999, 9999999999]))

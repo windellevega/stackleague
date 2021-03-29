@@ -16,3 +16,4 @@ print(persistence(26))
 print(persistence(254))
 
 #2x5 = 10
+print(min(['wew', 'wew', 'rddd']))

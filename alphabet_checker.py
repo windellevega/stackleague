@@ -1,5 +1,5 @@
 def check(chars):
-    alphabet = 'abcdefghijklmnopqrstuvwqyz'
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
     startPos = alphabet.find(chars[0].lower())
 
     for char in chars:

@@ -3,7 +3,7 @@ def nb_year(population, percent, additional, target):
     percent = percent / 100
     ctr = 0
     while population < target:
-        population += population * percent
+        population += int(population * percent)
         population += additional
         ctr += 1
 

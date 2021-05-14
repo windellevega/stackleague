@@ -1,3 +1,4 @@
+import math
 def duration(v0, slope, d_tot):
     # d_tot = total kilometers
     # slope = slope %
@@ -16,11 +17,11 @@ def duration(v0, slope, d_tot):
     watts = WATTS0
     d = 0.0
     v = v0 # current speed
-    slope = slope / 100
+    slope = math.sin(math.atan(slope / 100))
     t = 0.0
     air_drag = 0.0
 
-    while round(d, 2) < d_tot:
+    while d <= d_tot:
         #print(d)
         t += DELTA_T
         watts -= D_WATTS * DELTA_T
@@ -45,8 +46,10 @@ def duration(v0, slope, d_tot):
             return -1
         #print(d, v, t)
 
-    return int(t)
+    return round(t)
 
 print(duration(30, 5, 30))
 print(duration(30, 20, 30))
 print(duration(30, 8, 20))
+print(duration(30, 0, 5))
+print(duration(50, 10, 25))

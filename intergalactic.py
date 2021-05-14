@@ -6,17 +6,17 @@ class TransportShip:
         self.capacity = capacity
         self.group_of_passengers = []
         self.map = [
-            {'from': 'Mon Cala', 'to': 'Alderaan', 'distance': 25},
-            {'from': 'Alderaan', 'to': 'Coruscant', 'distance': 3.3},
-            {'from': 'Coruscant', 'to': 'Ilum', 'distance': 14.7},
-            {'from': 'Ilum', 'to': 'Jakku', 'distance': 18},
-            {'from': 'Jakku', 'to': 'Endor', 'distance': 9.2},
-            {'from': 'Endor', 'to': 'Hoth', 'distance': 7},
-            {'from': 'Hoth', 'to': 'Mustafar', 'distance': 4.3},
-            {'from': 'Mustafar', 'to': 'Dagobah', 'distance': 4.8},
-            {'from': 'Dagobah', 'to': 'Malastre', 'distance': 8.8},
-            {'from': 'Malastre', 'to': 'Naboo', 'distance': 2.9},
-            {'from': 'Naboo', 'to': 'Ryloth', 'distance': 6.5},
+            {'from':'Mon Cala','to':'Alderaan','distance':25},
+            {'from':'Alderaan','to':'Coruscant','distance':3.3},
+            {'from':'Coruscant','to':'Ilum','distance':14.7},
+            {'from':'Ilum','to':'Jakku','distance':18},
+            {'from':'Jakku','to':'Endor','distance':9.2},
+            {'from':'Endor','to':'Hoth','distance':7},
+            {'from':'Hoth','to':'Mustafar','distance':4.3},
+            {'from':'Mustafar','to':'Dagobah','distance':4.8},
+            {'from':'Dagobah','to':'Malastre','distance':8.8},
+            {'from':'Malastre','to':'Naboo','distance':2.9},
+            {'from':'Naboo','to':'Ryloth','distance':6.5},
         ]
 
     def add_passenger(self, group_of_passenger):
@@ -26,44 +26,49 @@ class TransportShip:
     def total_passenger_in_group(self, passenger_name):
         for passanger in self.group_of_passengers:
             if passanger.name.lower() == passenger_name.lower():
+                if passanger.companion_name == None:
+                    return 1
+                if not isinstance(passanger.companion_name, list):
+                    return 2
                 return len(passanger.companion_name) + 1
-        return  0
+        return 0
 
     def calculate_distance(self, origin, destination, distance=0):
         # calculate distance between planets;
         # distance refers to current distance calculated, initialized at 0
         # distance will not be 0 in cases where getDistance calls the function
         # repeatedly as planets are traversed
+        distanceTemp = distance
         for dest in self.map:
-            if origin.lower() == destination.lower():
-                return round(distance, 1)
             if dest['from'].lower() == origin.lower():
-                print(dest)
                 distance += dest['distance']
                 origin = dest['to']
 
-        if origin.lower() != destination.lower():
-            return 0
+            if origin.lower() == destination.lower():
+                return round(distance, 1)
+
         # for dest in self.map:
         #     if dest['from'].lower() == origin.lower() and dest['to'].lower() == destination.lower():
         #         distance += dest['distance']
 
-        return round(distance, 1)
+        return distanceTemp
 
     def calculate_distance_reverse(self, origin, destination, distance=0):
         # calculate distance between planets in reverse order;
         # distance refers to current distance calculated, initialized at 0
         # distance will not be 0 in cases where getDistance calls the function
         # repeatedly as planets are traversed
+        distanceTemp = distance
         tempMap = self.map[::-1]
         for dest in tempMap:
-            if origin.lower() == destination.lower():
-                return round(distance, 1)
             if dest['to'].lower() == origin.lower():
                 distance += dest['distance']
                 origin = dest['from']
 
-        return round(distance, 1)
+            if origin.lower() == destination.lower():
+                return round(distance, 1)
+
+        return distanceTemp
 
     # origin = mon cala -> destination = illum
     # origin = ryloth -> destination = jakku
@@ -76,7 +81,7 @@ class TransportShip:
                 return self.calculate_distance_reverse(origin, destination)
             if dest['from'].lower() == origin.lower():
                 return self.calculate_distance(origin, destination)
-        return 0
+        return 0.0
 
 
     def calculate_fare(self, passenger_name):
@@ -123,23 +128,63 @@ class Passenger:
                self.destination == other.destination and \
                self.companion_name == other.companion_name
 
+import unittest
+
+class MyTestCase(unittest.TestCase):
+
+    def test_ObjectOrientedProgramming_add_passenger(self):
+        falcon = TransportShip('Millenium Falcon', 45, 128, 4)
+        falcon.add_passenger(Passenger('Luke', 'Endor', 'Naboo', 'Nathan'))
+        falcon.add_passenger(Passenger('Porg', 'Jakku', 'Ilum', 'Hoobe,Kool'))
+
+        self.assertEqual(falcon.group_of_passengers, [
+            Passenger('Luke', 'Endor', 'Naboo', 'Nathan'),
+            Passenger('Porg', 'Jakku', 'Ilum', 'Hoobe,Kool')
+        ])
+
+    def test_Algorithms_total_passenger_in_group(self):
+        falcon = TransportShip('Millenium Falcon', 45, 128, 31)
+        falcon.add_passenger(Passenger('Luke', 'Endor', 'Naboo'))
+        falcon.add_passenger(Passenger('Porg', 'Jakku', 'Ilum', ['Hoobe', 'Kool']))
+        falcon.add_passenger(Passenger('Anakin', 'Jakku', 'Naboo'))
+        falcon.add_passenger(Passenger('Anni', 'Jakku', 'Ilum', ['Solo', 'Han', 'Mace', 'Windu']))
+
+        self.assertEqual(falcon.total_passenger_in_group('luke'), 1)
+
+    def test___SL___calculate_fare(self):
+        falcon = TransportShip('Millenium Falcon', 45.50, 12, 7)
+        falcon.add_passenger(Passenger('Luke', 'Endor', 'Naboo', ['Nathan']))
+        falcon.add_passenger(Passenger('Porg', 'Jakku', 'Ilum', ['Hoobe', 'Kool']))
+        falcon.add_passenger(Passenger('Anakin', 'Jakku', 'Naboo'))
+        falcon.add_passenger(Passenger('Anni', 'Jakku', 'Ilum', ['Solo', 'Han', 'Mace', 'Windu']))
+        falcon.add_passenger(Passenger('Darth', 'Jakku', 'Naboo', 'Vader'))
+
+        self.assertEqual(falcon.calculate_fare('Luke'), 67.07)
+
+    def test___SL___calculate_group_fare(self):
+        falcon = TransportShip('Millenium Falcon', 5.5, 14, 7)
+        falcon.add_passenger(Passenger('Anni', 'Jakku', 'Ilum', ['Solo', 'Han', 'Mace', 'Windu']))
+
+        self.assertEqual(falcon.calculate_group_fare('anni'), 30.8)
+
+    def test___SL___calculate_distance_(self):
+        falcon = TransportShip('Millenium Falcon', 5.5, 14, 7)
+
+        self.assertEqual(falcon.get_distance('Mon Cala', 'Ilum'), 43)
+
+    def test___SL___calculate_distance_reverse(self):
+        falcon = TransportShip('Millenium Falcon', 5.5, 14, 7)
+
+        self.assertEqual(falcon.get_distance('ryloth', 'Jakku'), 43.5)
+
+    def test___SL___calculate_distance_reverse1(self):
+        falcon = TransportShip('Millenium Falcon', 5.5, 14, 7)
+        a = ['mon cala', 'alderaan', 'coruscant', 'ilum', 'jakku', 'endor', 'hoth', 'mustafar', 'dagobah', 'malastre', 'naboo', 'ryloth']
+        b = ['mon cala', 'alderaan', 'coruscant', 'ilum', 'jakku', 'endor', 'hoth', 'mustafar', 'dagobah', 'malastre', 'naboo', 'ryloth']
+        for i in range(len(a)):
+            for j in range(len(a) - 1, -1, -1):
+                self.assertEqual(falcon.calculate_distance(a[i], b[j]), falcon.calculate_distance_reverse(b[j], a[i]))
 
 
-falcon = TransportShip('Millenium Falcon', 45, 128, 31)
-falcon.add_passenger(Passenger('Luke','Endor','Naboo',['Nathan']))
-falcon.add_passenger(Passenger('Porg','Jakku','Ilum',['Hoobe','Kool']))
-falcon.add_passenger(Passenger('Anakin','Jakku','Naboo'))
-falcon.add_passenger(Passenger('Anni','Jakku','Ilum',['Solo','Han','Mace','Windu']))
-print(falcon.calculate_distance('hoth', 'naboo'))
-
-falcon = TransportShip('Millenium Falcon', 45.50, 12, 7)
-falcon.add_passenger(Passenger('Luke','Endor','Naboo',['Nathan']))
-falcon.add_passenger(Passenger('Porg','Jakku','Ilum',['Hoobe','Kool']))
-falcon.add_passenger(Passenger('Anakin','Jakku','Naboo'))
-falcon.add_passenger(Passenger('Anni','Jakku','Ilum',['Solo','Han','Mace','Windu']))
-falcon.add_passenger(Passenger('Darth','Jakku','Naboo','Vader'))
-print(falcon.calculate_fare('Luker'))
-
-falcon = TransportShip('Millenium Falcon', 5.5, 14, 7)
-falcon.add_passenger(Passenger('Anni','mon cala','Ilum',['massala', 'tikka']))
-print(falcon.calculate_group_fare('anni'))
+if __name__ == '__main__':
+    unittest.main()

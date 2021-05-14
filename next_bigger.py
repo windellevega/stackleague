@@ -10,6 +10,7 @@ def next_bigger(number):
             temp.sort()
             digits[i:] = [m] + temp
             return int("".join(digits))
+
     return -1
 
 print(next_bigger(790))

@@ -16,3 +16,6 @@ def middle_permutation(string):
 
 print(middle_permutation('abc'))
 print(middle_permutation('abcd'))
+
+x = [66, 101]
+print(x.index(66))
